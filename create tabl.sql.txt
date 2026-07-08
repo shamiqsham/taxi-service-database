@@ -1,0 +1,59 @@
+CUSTOMER TABLE
+
+
+CREATE TABLE CUSTOMER (
+    CustomerID NUMBER(5) PRIMARY KEY,
+    FullName VARCHAR2(100) NOT NULL,
+    Phone VARCHAR2(15) UNIQUE NOT NULL,
+    Email VARCHAR2(100) UNIQUE NOT NULL,
+    Address VARCHAR2(200) NOT NULL
+);
+
+DRIVER TABLE 
+
+
+CREATE TABLE DRIVER (
+    DriverID NUMBER(5) PRIMARY KEY,
+    FullName VARCHAR2(100) NOT NULL,
+    Phone VARCHAR2(10 UNIQUE NOT NULL,
+    LicenceNumber VARCHAR2(10 UNIQUE NOT NULL,
+    Salary NUMBER(8,2) CHECK (Salary > 0)
+);
+
+VEICHLE TABLE 
+
+CREATE TABLE VEHICLE (
+    VehicleID NUMBER(10PRIMARY KEY,
+    RegistrationNumber VARCHAR2(15) UNIQUE NOT NULL,
+    Brand VARCHAR2(50) NOT NULL,
+    Model VARCHAR2(25) NOT NULL,
+    ManufactureYear NUMBER(4) CHECK (ManufactureYear >= 2000),
+    Colour VARCHAR2(15) NOT NULL
+);
+
+RIDE TABLE 
+
+CREATE TABLE RIDE (
+    RideID NUMBER(5) PRIMARY KEY,
+    BookingDate DATE NOT NULL,
+    PickupLocation VARCHAR2(100) NOT NULL,
+    DropOffLocation VARCHAR2(100) NOT NULL,
+    RideDistance NUMBER(6,2) CHECK (RideDistance > 0),
+    Fare NUMBER(8,2) CHECK (Fare >= 0),
+    RideStatus VARCHAR2(20) CHECK (RideStatus IN ('Completed','Ongoing','Cancelled')),
+    CustomerID NUMBER(5) REFERENCES CUSTOMER(CustomerID),
+    DriverID NUMBER(5) REFERENCES DRIVER(DriverID),
+    VehicleID NUMBER(5) REFERENCES VEHICLE(VehicleID)
+);
+
+PAYMENT TABLE 
+
+
+CREATE TABLE PAYMENT (
+    PaymentID NUMBER(20) PRIMARY KEY,
+    PaymentDate DATE NOT NULL,
+    PaymentMethod VARCHAR2(12) CHECK (PaymentMethod IN ('Cash','Card','Online')),
+    Amount NUMBER(8,2) CHECK (Amount >= 0),
+    PaymentStatus VARCHAR2(12) CHECK (PaymentStatus IN ('Paid','Pending')),
+    RideID NUMBER(19) UNIQUE REFERENCES RIDE(RideID)
+);
